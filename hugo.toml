@@ -1,0 +1,4 @@
+baseURL = 'https://gadjoy.github.io/artbypriti/'
+languageCode = 'en-us'
+title = 'Art by Priti'
+theme = 'gallery'
