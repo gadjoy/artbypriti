@@ -35,17 +35,12 @@ The portfolio includes various art collections:
    cd artbypriti
    ```
 
-2. Initialize and update the theme submodule:
-   ```bash
-   git submodule update --init --recursive
-   ```
-
-3. Start the Hugo development server:
+2. Start the Hugo development server:
    ```bash
    hugo server -D
    ```
 
-4. View the site at: `http://localhost:1313/`
+3. View the site at: `http://localhost:1313/`
 
 ## 📝 Content Management
 
@@ -104,4 +99,4 @@ For content updates, please contact the site owner directly.
 
 ## 📞 Contact
 
-For inquiries about the artwork or the artist, please use the contact form on the website. 
+For inquiries about the artwork or the artist, please use the contact form on the website.

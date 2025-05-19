@@ -1,0 +1,55 @@
+ID	post_title	file_path	caption
+6	3 Poppies	2021/02/3-Poppies-scaled.jpg	
+22	OM with Bandhani	2021/02/OM-with-Bandhani-scaled.jpg	
+27	Scenes from Holland 2	2021/02/Scenes-from-Holland-2-scaled.jpg	
+38	Fall Ganesha	2021/02/Fall-Ganesha-1.jpg	Fall Ganesha
+39	Floating Vegetables	2021/02/Floating-Vegetables-1.jpg	Vegetables in Negative Space
+41	Ganesha in Blocks	2021/02/Ganesha-in-Blocks-1.jpg	Ganesha in blocks 
+42	Ganesha Modern Polka dots	2021/02/Ganesha-Modern-Polka-dots-1.jpg	Ganesha in polka dots
+43	Ganesha with lines	2021/02/Ganesha-with-lines-1.jpg	Ganesha in linear relief
+44	Holland Distilled	2021/02/Holland-Distilled-1.jpg	Holland Distilled
+45	Lemon and Pot Contemporary	2021/02/Lemon-and-Pot-Contemporary-1.jpg	Lemon and a pot 
+46	Life force	2021/02/Life-force-1.jpg	Life Force
+48	Lotus Impressionism	2021/02/Lotus-Impressionism-1.jpg	Impressions of Lotuses
+49	Lotus series 1	2021/02/Lotus-series-1-1.jpg	Lotus Series 1
+50	Mondrian Mosaic	2021/02/Mondrian-Mosaic-1.jpg	Mondrian Mosaic 
+51	Mondrian Style with face	2021/02/Mondrian-Style-with-face-1.jpg	Prisoner of Mondrian
+52	Mosaic Modern Ganesha	2021/02/Mosaic-Modern-Ganesha-1.jpg	
+53	OM with Bandhani	2021/02/OM-with-Bandhani-1.jpg	OM with bandhani
+55	Pear Pointlism	2021/02/Pear-Pointlism-1.jpg	Orange and Pear
+56	Pear with Pink Background	2021/02/Pear-with-Pink-Background-1.jpg	Pear
+57	red Green &Blue	2021/02/red-Green-Blue-1.jpg	Red Green & Blue
+58	Scenes from Holland 2	2021/02/Scenes-from-Holland-2-1.jpg	Scenes from Holland
+59	Scenes from Shanghai	2021/02/Scenes-from-Shanghai-1.jpg	Scenes from Shanghai
+60	Soup bowl and vegetables	2021/02/Soup-bowl-and-vegetables-1.jpg	Glimpses into a kitchen
+61	Symbiotica	2021/02/Symbiotica-1.jpg	Symbiotica
+62	Terrace View Banglore	2021/02/Terrace-View-Banglore-1.jpg	 Terrace Views - Bangalore
+63	The explorer	2021/02/The-explorer-1.jpg	The Explorer
+64	Tripping in Micronized Land	2021/02/Tripping-in-Micronized-Land-1.jpg	Tripping in a micronized land
+65	Tulip with Polka dots 2	2021/02/Tulip-with-Polka-dots-2-1.jpg	Tulip with Polka dots 2
+66	Tulip with Polka dots	2021/02/Tulip-with-Polka-dots-1.jpg	Tulip with polka dots
+67	With the flow	2021/02/With-the-flow-1.jpg	With the flow
+68	Apple with dots	2021/02/Apple-with-dots.jpg	Apple with Dots
+69	Banana	2021/02/Banana.jpg	Banana
+70	Eggplant	2021/02/Eggplant.jpg	Eggplant
+71	Lemon	2021/02/Lemon.jpg	Lemon
+82	Flower-in-a-Geometrical-Box-3	2021/02/Flower-in-a-Geometrical-Box-3-scaled.jpg	Flower in a geometrical box
+84	Holland-Distilled-2	2021/02/Holland-Distilled-2-scaled.jpg	Holland Distilled
+162	Mangosteen	2021/02/Mangosteen-scaled.jpg	Mangosteen
+163	Olive	2021/02/Olive.jpg	Olive
+164	Pear	2021/02/Pear-scaled.jpg	Pear
+165	pomergranate	2021/02/pomergranate.jpg	
+208	Dragon Fruit	2021/02/Dragon-Fruit-scaled.jpg	Dragonfruit
+214	Lifebuoy	2021/02/Lifebuoy.jpg	Lifebuoy
+278	pear pink	2021/03/pear-pink-1.jpg	
+279	staircase	2021/03/staircase.jpg	
+334	Priti_Ghatlia	2021/03/Priti_Ghatlia-scaled.jpg	
+414	IPHONE-AND-APPLE-WATCH-HOLDER	2022/01/IPHONE-AND-APPLE-WATCH-HOLDER.jpg	
+420	before-Samsung-A50-A506F-Display-Combo-Replacement	2022/08/before-Samsung-A50-A506F-Display-Combo-Replacement.png	
+421	after-Samsung-A50-A506F-Display-Combo-Replacement	2022/08/after-Samsung-A50-A506F-Display-Combo-Replacement.png	
+422	after-Samsung-A50-A506F-Display-Combo-Replacement-1	2022/08/after-Samsung-A50-A506F-Display-Combo-Replacement-1.png	
+423	after-Samsung-A50-A506F-Display-Combo-Replacement-2	2022/08/after-Samsung-A50-A506F-Display-Combo-Replacement-2.png	
+427	before-Samsung-A50-A506F-Display-Combo-Replacement-1	2022/08/before-Samsung-A50-A506F-Display-Combo-Replacement-1.png	
+428	after-Samsung-A50-A506F-Display-Combo-Replacement-3	2022/08/after-Samsung-A50-A506F-Display-Combo-Replacement-3.png	
+429	before-Samsung-A50-A506F-Display-Combo-Replacement-2	2022/08/before-Samsung-A50-A506F-Display-Combo-Replacement-2.png	
+430	before-Samsung-A50-A506F-Display-Combo-Replacement-3	2022/08/before-Samsung-A50-A506F-Display-Combo-Replacement-3.png	

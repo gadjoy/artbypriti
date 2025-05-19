@@ -1,0 +1,32 @@
+baseURL = "/"
+languageCode = "en-us"
+title = "Art by Priti"
+theme = "gallery"
+
+[params]
+  description = "Art Gallery by Priti Ghatlia"
+  images = ["images/2021/03/Priti_Ghatlia.jpg"]
+  mainSections = ["artwork"]
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "Gallery"
+    url = "/artwork/"
+    weight = 2
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 3
+
+[imaging]
+  quality = 85
+  resampleFilter = "Lanczos"
+  [imaging.exif]
+    disableDate = true
+    disableLatLong = true
+    includeFields = ""
+    excludeFields = "" 
