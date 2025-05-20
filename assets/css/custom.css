@@ -33,3 +33,30 @@ body > header {
   margin-bottom: 0;
 }
 */
+
+/* Set the entire page background */
+body {
+  background: linear-gradient(to right, #f4efe0 0%, #f4efe0 100%) !important;
+}
+
+/* Only force sharp edges for previews and cards, no background override */
+.card,
+.card > figure,
+.card > img,
+.card figure > img,
+.gallery-item,
+.gallery-item figure,
+.gallery-item img {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+/* Force PhotoSwipe modal background */
+.pswp__bg {
+  background: linear-gradient(to right, #f4efe0 0%, #f4efe0 100%) !important;
+}
+
+body, body * {
+  color: #000 !important;
+}

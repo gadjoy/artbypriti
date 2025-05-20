@@ -44,22 +44,24 @@ The portfolio includes various art collections:
 
 ## 📝 Content Management
 
-The site content is organized in the following structure:
+The site content is now organized in a flat structure for easier management:
 
 ```
 content/
 ├── about/
-├── acrylic-on-canvas/
-├── acrylic-and-oil-on-canvas/
-├── acrylic-on-canvas-with-texture/
-├── oil-on-canvas/
-├── water-color-on-paper/
-└── glass-tiles-on-a-wooden-plate-(mosaic)/
+├── apple-with-dots/
+├── banana/
+├── dragon-fruit/
+├── ... (other artwork folders)
 ```
 
-Each artwork is stored in its own directory with:
-- `index.md`: Metadata and description
-- Image files in various resolutions
+- Each artwork is stored in its own directory directly under `content/` (except for `about/`).
+- Each artwork folder contains:
+  - `index.md`: Metadata, description, and front matter (including the `categories` field for Hugo taxonomy)
+  - Image files in various resolutions
+- The `categories` field in the front matter is used by Hugo's taxonomy system to group and display artworks by category.
+
+**Note:** The previous nested category folders (e.g., `acrylic-on-canvas/`, `oil-on-canvas/`) have been removed in favor of this flat structure. Category pages are still available via Hugo taxonomy, but the `/categories/` index page is hidden for a cleaner user experience.
 
 ## 🔄 Deployment
 
