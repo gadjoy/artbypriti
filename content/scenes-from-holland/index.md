@@ -1,5 +1,6 @@
 ---
 title: "Scenes from Holland"
+weight: 21
 date: 2021-02-21
 draft: false
 categories: [Acrylic and Oil on Canvas]

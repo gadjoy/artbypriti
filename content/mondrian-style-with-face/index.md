@@ -1,5 +1,6 @@
 ---
 title: "Prisoner of Mondrian"
+weight: 4
 date: 2021-02-14
 draft: false
 categories: [Acrylic on Canvas]

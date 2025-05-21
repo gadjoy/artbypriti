@@ -1,5 +1,6 @@
 ---
-title: "Soup bowl and vegetables"
+title: "Glimpses into a Kitchen"
+weight: 26
 date: 2021-02-21
 draft: false
 categories: [Acrylic on Canvas]
@@ -8,8 +9,3 @@ resources:
   - src: Soup-bowl-and-vegetables-1.jpg
     title: (70 cm X 54.5 cm)
 ---
-
-original-title: "Glimpses into a Kitchen"
-
-
-

@@ -1,5 +1,6 @@
 ---
 title: "OM with Bandhani"
+weight: 18
 date: 2021-02-21
 draft: false
 categories: [Acrylic and Fabric on Canvas]

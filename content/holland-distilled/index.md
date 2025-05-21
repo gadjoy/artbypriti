@@ -1,5 +1,6 @@
 ---
 title: "Holland Distilled"
+weight: 11
 date: 2021-02-13
 draft: false
 categories: [Acrylic on Canvas]

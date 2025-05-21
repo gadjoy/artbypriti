@@ -1,5 +1,6 @@
 ---
-title: "Pear Pointlism"
+title: "Orange and Pear"
+weight: 27
 date: 2021-02-21
 draft: false
 categories: [Water Color on Paper]
@@ -8,8 +9,3 @@ resources:
   - src: Pear-Pointlism-1.jpg
     title: (29.5 cm X 20 cm)
 ---
-
-original-title: "Orange and Pear"
-
-
-

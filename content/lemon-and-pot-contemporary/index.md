@@ -1,5 +1,6 @@
 ---
-title: "Lemon and a Pot Contemporary"
+title: "Lemon and a Pot"
+weight: 16
 date: 2021-02-21
 draft: false
 categories: [Acrylic on Canvas with Texture]
@@ -8,8 +9,3 @@ resources:
   - src: Lemon-and-Pot-Contemporary-1.jpg
     title: (50 cm X 40 cm)
 ---
-
-original-title: Lemon and a Pot
-
-
-

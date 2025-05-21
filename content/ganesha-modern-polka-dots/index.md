@@ -1,5 +1,6 @@
 ---
 title: "Ganesha with Polka Dots"
+weight: 9
 date: 2021-02-13
 draft: false
 categories: [Acrylic on Canvas with Texture]

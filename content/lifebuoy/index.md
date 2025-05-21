@@ -1,5 +1,6 @@
 ---
 title: "Lifebuoy"
+weight: 15
 date: 2021-02-27
 draft: false
 categories: [Acrylic and Oil on Canvas]

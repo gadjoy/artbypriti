@@ -1,5 +1,6 @@
 ---
 title: "Red Green & Blue"
+weight: 12
 date: 2021-02-13
 draft: false
 categories: [Acrylic on Canvas]

@@ -1,5 +1,6 @@
 ---
 title: "Terrace View Bangalore"
+weight: 24
 date: 2021-02-13
 draft: false
 categories: [Acrylic on Canvas with Texture]

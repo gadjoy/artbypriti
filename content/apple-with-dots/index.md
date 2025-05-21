@@ -1,5 +1,6 @@
 ---
 title: "Apple with Dots"
+weight: 35
 date: 2021-02-21
 draft: false
 categories: [Acrylic on Canvas]

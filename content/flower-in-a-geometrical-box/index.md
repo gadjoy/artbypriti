@@ -1,5 +1,6 @@
 ---
-title: "Flower in a Geometrical Box"
+title: "Flowers in a Geometrical Box"
+weight: 20
 date: 2021-02-13
 draft: false
 categories: [Acrylic and Oil on Canvas]

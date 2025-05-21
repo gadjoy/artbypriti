@@ -1,5 +1,6 @@
 ---
 title: "Pear with Pink Background"
+weight: 31
 date: 2021-03-07
 draft: false
 categories: [Acrylic on Canvas]

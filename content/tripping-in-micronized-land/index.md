@@ -1,5 +1,6 @@
 ---
 title: "Tripping in a Micronized Land"
+weight: 2
 date: 2021-02-13
 draft: false
 categories: [Acrylic on Canvas]

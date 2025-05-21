@@ -1,5 +1,6 @@
 ---
 title: "Ganesha in Blocks"
+weight: 23
 date: 2021-02-21
 draft: false
 categories: [Acrylic on Canvas with Texture]

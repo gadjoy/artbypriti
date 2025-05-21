@@ -1,5 +1,6 @@
 ---
 title: "With the Flow"
+weight: 29
 date: 2021-02-21
 draft: false
 categories: [Acrylic on Canvas]

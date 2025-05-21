@@ -1,5 +1,6 @@
 ---
 title: "Ganesha with Linear Relief"
+weight: 1
 date: 2021-02-21
 draft: false
 categories: [Acrylic and Oil on Canvas]

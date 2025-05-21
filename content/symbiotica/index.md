@@ -1,5 +1,6 @@
 ---
 title: "Symbiotica"
+weight: 19
 date: 2021-02-13
 draft: false
 categories: [Acrylic and Oil on Canvas with Texture]

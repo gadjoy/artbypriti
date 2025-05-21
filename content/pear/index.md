@@ -1,5 +1,6 @@
 ---
 title: "Pear"
+weight: 22
 date: 2021-02-13
 draft: false
 categories: [Oil on Canvas]

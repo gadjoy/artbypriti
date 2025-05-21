@@ -1,5 +1,6 @@
 ---
 title: "Modern Ganesha"
+weight: 41
 date: 2021-02-13
 draft: false
 categories: [Glass tiles on a Wooden Plate (Mosaic)]

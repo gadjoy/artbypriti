@@ -1,5 +1,6 @@
 ---
-title: "Lotus Series 1"
+title: "Lotus Series"
+weight: 17
 date: 2021-02-13
 draft: false
 categories: [Oil on Canvas]

@@ -1,5 +1,6 @@
 ---
 title: "Lemon"
+weight: 38
 date: 2021-02-21
 draft: false
 categories: [Acrylic on Canvas]

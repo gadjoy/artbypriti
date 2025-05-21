@@ -1,5 +1,6 @@
 ---
 title: "Vegetables in Negative Space"
+weight: 6
 date: 2021-02-13
 draft: false
 categories: [Acrylic on Canvas]

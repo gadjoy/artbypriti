@@ -1,5 +1,6 @@
 ---
 title: "Ganesha's Blessings"
+weight: 5
 date: 2024-05-19
 draft: false
 categories: [Oil on Canvas]

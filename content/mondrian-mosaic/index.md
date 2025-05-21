@@ -1,5 +1,6 @@
 ---
 title: "Mondrian Mosaic"
+weight: 42
 date: 2021-02-21
 draft: false
 categories: [Glass tiles on a Wooden Plate (Mosaic)]

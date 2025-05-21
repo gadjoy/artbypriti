@@ -1,5 +1,6 @@
 ---
-title: "Tulip with Polka Dots - 1"
+title: "Tulip with Polka Dots"
+weight: 3
 date: 2021-03-07
 draft: false
 categories: [Acrylic and Oil on Canvas]
