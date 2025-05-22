@@ -1,3 +1,24 @@
+{{ if .IsPage }}
+<section class="gallery-single-centered">
+  <div class="gallery-single-image-wrapper">
+    {{ $images := slice }}
+    {{ range $image := where (.Resources.ByType "image") "Params.hidden" "ne" true }}
+      {{ $thumbnail := $image.Filter (slice images.AutoOrient (images.Process "fit 1000x1000")) }}
+      {{ $full := $image.Filter (slice images.AutoOrient (images.Process "fit 1600x1600")) }}
+      <a class="gallery-item" href="{{ $full.RelPermalink }}" data-pswp-src="{{ $full.RelPermalink }}" data-pswp-width="{{ $full.Width }}" data-pswp-height="{{ $full.Height }}" data-pswp-caption="{{ with index $image.Params.resources 0 }}{{ .title }}{{ end }}" title="{{ .Title }}" itemscope itemtype="https://schema.org/ImageObject">
+        <figure class="gallery-single-figure">
+          <img class="lazyload gallery-single-img" width="{{ $thumbnail.Width }}" height="{{ $thumbnail.Height }}" data-src="{{ $thumbnail.RelPermalink }}" alt="{{ $image.Title }}" />
+        </figure>
+      </a>
+      {{ with index $image.Params.resources 0 }}
+        {{ with .title }}
+          <div class="dimensions">{{ . }}</div>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  </div>
+</section>
+{{ else }}
 <section class="gallery">
   <div id="gallery" style="visibility: hidden; height: 1px; overflow: hidden">
     {{ $images := slice }}
@@ -7,16 +28,13 @@
       {{ with $image.Exif }}
         {{ $date = .Date }}
         {{ with .Tags.ImageDescription }}
-          {{/* Title from EXIF ImageDescription */}}
           {{ $title = . }}
         {{ end }}
       {{ end }}
       {{ if ne $image.Title $image.Name }}
-        {{/* Title from front matter */}}
         {{ $title = $image.Title }}
       {{ end }}
       {{ if $image.Params.Date }}
-        {{/* Date from front matter */}}
         {{ $date = time $image.Params.Date }}
       {{ end }}
       {{ $images = $images | append (dict
@@ -48,3 +66,40 @@
     {{ end }}
   </div>
 </section>
+{{ end }}
+
+<!-- Add CSS for centering and sizing -->
+<style>
+.gallery-single-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+.gallery-single-image-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.gallery-single-figure {
+  background: linear-gradient(to right, #f4efe0 0%, #f4efe0 100%);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.gallery-single-img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+  max-width: 1000px;
+  cursor: pointer;
+}
+.dimensions {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 1.1em;
+  color: #333;
+}
+</style>
