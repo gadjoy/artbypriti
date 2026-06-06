@@ -5,15 +5,13 @@
     {{ range $image := where (.Resources.ByType "image") "Params.hidden" "ne" true }}
       {{ $thumbnail := $image.Filter (slice images.AutoOrient (images.Process "fit 1000x1000")) }}
       {{ $full := $image.Filter (slice images.AutoOrient (images.Process "fit 1600x1600")) }}
-      <a class="gallery-item" href="{{ $full.RelPermalink }}" data-pswp-src="{{ $full.RelPermalink }}" data-pswp-width="{{ $full.Width }}" data-pswp-height="{{ $full.Height }}" data-pswp-caption="{{ with index $.Params.resources 0 }}{{ .title }}{{ end }}" title="{{ $.Title }}" itemscope itemtype="https://schema.org/ImageObject">
+      <a class="gallery-item" href="{{ $full.RelPermalink }}" data-pswp-src="{{ $full.RelPermalink }}" data-pswp-width="{{ $full.Width }}" data-pswp-height="{{ $full.Height }}" data-pswp-caption="{{ $.Params.dimensions }}" title="{{ $.Title }}" itemscope itemtype="https://schema.org/ImageObject">
         <figure class="gallery-single-figure">
           <img class="lazyload gallery-single-img" width="{{ $thumbnail.Width }}" height="{{ $thumbnail.Height }}" data-src="{{ $thumbnail.RelPermalink }}" alt="{{ $.Title }}" />
         </figure>
       </a>
-      {{ with index $.Params.resources 0 }}
-        {{ with .title }}
-          <div class="dimensions">{{ . }}</div>
-        {{ end }}
+      {{ with $.Params.dimensions }}
+        <div class="dimensions">{{ . }}</div>
       {{ end }}
     {{ end }}
   </div>

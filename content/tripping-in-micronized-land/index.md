@@ -5,9 +5,9 @@ date: 2021-02-13
 draft: false
 categories: [Acrylic on Canvas]
 description: Breaking down the fine curlicues of shapes inspired by henna art
+dimensions: (91 cm X 61 cm)
 resources:
   - src: Tripping-in-Micronized-Land-1.jpg
-    title: (91 cm X 61 cm)
 ---
 
 

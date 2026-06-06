@@ -7,7 +7,6 @@ categories: [Mosaic]
 description: Created for a charity auction.
 resources:
   - src: mosaic-coasters.jpeg
-    title: 
 ---
 
 
