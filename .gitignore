@@ -18,3 +18,9 @@ hugo.linux
 /.hugo_build.lock
 
 # End of https://www.toptal.com/developers/gitignore/api/hugo
+
+### macOS ###
+.DS_Store
+
+### Claude Code ###
+.claude/settings.local.json
