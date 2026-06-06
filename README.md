@@ -10,7 +10,7 @@ The portfolio includes various art collections:
 - Acrylic with Texture
 - Oil on Canvas
 - Water Color on Paper
-- Glass Tiles on Wooden Plate (Mosaic)
+- Mosaic
 - Mixed Media Works
 
 ## 🛠 Technical Stack
