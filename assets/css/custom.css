@@ -60,3 +60,13 @@ body {
 body, body * {
   color: #000 !important;
 }
+
+/* More prominent page/gallery description (subtext under the title) */
+hgroup p {
+  font-size: 1.125rem; /* 18px on mobile */
+}
+@media (min-width: 768px) {
+  hgroup p {
+    font-size: 1.375rem; /* 22px on desktop */
+  }
+}
