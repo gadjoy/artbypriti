@@ -60,3 +60,13 @@ body {
 body, body * {
   color: #000 !important;
 }
+
+/* Artwork category (medium) shown under the image/dimensions, links to the category page */
+.artwork-category {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.95em;
+}
+.artwork-category a {
+  text-decoration: underline;
+}
