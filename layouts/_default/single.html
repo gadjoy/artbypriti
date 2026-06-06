@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ partial "title.html" . }}
+  {{ partial "gallery.html" . }}
+  {{ with .GetTerms "categories" }}
+    <section class="artwork-category">
+      {{ range . }}
+        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+      {{ end }}
+    </section>
+  {{ end }}
+  {{ partial "related.html" . }}
+  {{ with .Content }}
+    <section class="prose">
+      {{ . }}
+    </section>
+  {{ end }}
+{{ end }}
