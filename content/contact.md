@@ -1,5 +1,6 @@
 ---
 title: "Contact"
+layout: prose
 menu:
   main:
     weight: 90
