@@ -72,10 +72,11 @@ hgroup p {
 }
 
 /* Artwork category (medium) shown under the image/dimensions, links to the category page */
+/* Match the .dimensions caption size so the two lines read as one group */
 .artwork-category {
   text-align: center;
   margin-top: 0.5rem;
-  font-size: 0.95em;
+  font-size: 1.1em;
 }
 .artwork-category a {
   text-decoration: underline;
