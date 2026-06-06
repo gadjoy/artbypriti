@@ -31,7 +31,7 @@ The portfolio includes various art collections:
 
 1. Clone the repository:
    ```bash
-   git clone git@github.com:YourUsername/artbypriti.git
+   git clone git@github.com:vivekanandba/artbypriti.git
    cd artbypriti
    ```
 
@@ -83,7 +83,7 @@ To use a custom domain:
    A     @      185.199.109.153
    A     @      185.199.110.153
    A     @      185.199.111.153
-   CNAME www    yourusername.github.io
+   CNAME www    vivekanandba.github.io
    ```
 
 ## 📄 License
