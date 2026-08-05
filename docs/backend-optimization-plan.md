@@ -61,12 +61,12 @@ Derived-variant breakdown, which shows exactly what each build is paying for:
 | 1000 px fit | 47 | 4.6 MB | single artwork page |
 | 900×600 fill | 46 | 3.3 MB | **RSS feed thumbnails only** |
 | 600 px fit | 46 | 1.7 MB | home/category grid |
-| originals | 48 | 115.8 MB | lightbox `href` fallback only |
+| originals | 48 | 115.8 MB | **nothing** — see the correction in §1.1 |
 
 Three things fall straight out of these numbers:
 
-- **83% of the deployed payload is originals** that no page displays. They are reachable only
-  by following the grid's `href` (or the lightbox download button) — an 8 MB file for `Olive.jpg`.
+- **83% of the deployed payload is originals** that no page displays — and, as §1.1 records,
+  that no rendered page even links to. `Olive.jpg` ships 8 MB that nothing references.
 - **Every deploy pays the full 197.6 s cold-build cost**, because nothing persists
   `resources/_gen` between CI runs. With the cache warm the same build is 5.6 s. This is a
   pure configuration miss, not a workload problem.
@@ -114,9 +114,12 @@ WordPress backup split into four `.wpress_part_*` blobs. None of it feeds the bu
 
 Every CI run — and every clone — downloads and writes all of it.
 
-1. Archive it first: push it to a separate `artbypriti-legacy` repo, attach the `.wpress`
-   parts to a GitHub Release, or keep an offline copy. Do not skip this step.
-2. `git rm -r legacy/` on a branch, merge normally. No force-push, no history rewrite.
+**How this was done:** rather than copying it elsewhere, the archive is the git history
+itself — tag `legacy-archive` marks the last commit containing `legacy/`, and the directory was
+removed with `git rm -r` on a branch. No force-push, no history rewrite, so every file stays
+permanently reachable and browsable at
+[the tag](https://github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy). Full retrieval
+instructions: [legacy-archive.md](legacy-archive.md).
 
 - **Effect:** CI checkout drops from ~1.5 GB to ~117 MB. Shallow clones (what
   `actions/checkout` does by default) stop fetching those blobs entirely.
@@ -136,8 +139,10 @@ Point the image cache at `HUGO_CACHEDIR` in `hugo.toml`:
 [caches]
   [caches.images]
     dir = ":cacheDir/images"
-    maxAge = "720h"
 ```
+
+(`maxAge` is deliberately left at the default of "never expire" — there is no reason to make CI
+regenerate variants on a timer.)
 
 …then actually persist it in `.github/workflows/hugo.yml`, before the build step:
 
@@ -472,9 +477,11 @@ Small, reviewable PRs, in dependency order:
 
 ### Resolved
 
-1. **`legacy/` location** — archived by git reference: tag `legacy-archive` at
-   `8d0cf6e376da7eb0e482d328cda45b472408ef6b`, removed from the working tree, retrieval
-   documented in [legacy-archive.md](legacy-archive.md).
+1. **`legacy/` location** — archived by git reference and browsable at
+   **https://github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy** (tag
+   `legacy-archive`, commit `8d0cf6e376da7eb0e482d328cda45b472408ef6b`). Removed from the
+   working tree; links, inventory and restore commands in
+   [legacy-archive.md](legacy-archive.md).
 2. **Full-resolution downloads** — masters are no longer published. This turned out to be
    near-costless: no page ever linked them (see the correction in §1.1).
 3. **Masters left untouched** (§1.5) and **RSS kept** (§2.4).

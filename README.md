@@ -86,6 +86,23 @@ To use a custom domain:
    CNAME www    vivekanandba.github.io
    ```
 
+## 🗄 Legacy migration files
+
+The old WordPress site and the five WordPress → Hugo migration snapshots used to live in
+`legacy/`. They were 1.38 GB of the repository and no build step read them, so they were removed
+from the working tree — **but nothing was deleted from history.**
+
+Browse them any time at
+**[github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy](https://github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy)**,
+or restore them locally with:
+
+```bash
+git restore --source=legacy-archive -- legacy/
+```
+
+See [docs/legacy-archive.md](docs/legacy-archive.md) for the full inventory and more retrieval
+options.
+
 ## 📄 License
 
 All artwork and images are copyrighted by Priti. The website code is available under the MIT license.

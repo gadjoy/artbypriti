@@ -1,7 +1,40 @@
 # Legacy archive — where the old migration files went
 
 The `legacy/` directory was removed from the working tree. **Nothing was deleted from git
-history**, so every file is still retrievable at the commit below, permanently.
+history**, so every file is still retrievable — permanently — at the tag below.
+
+## 🔗 Open the archive
+
+**Browse it in the browser, no clone needed:**
+
+### 👉 https://github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy
+
+| Link | What it opens |
+| --- | --- |
+| [Browse `legacy/`](https://github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy) | The whole directory as it was, browsable file by file |
+| [The archive commit](https://github.com/vivekanandba/artbypriti/commit/8d0cf6e376da7eb0e482d328cda45b472408ef6b) | Commit `8d0cf6e` — the last state containing `legacy/` |
+| [The `legacy-archive` tag](https://github.com/vivekanandba/artbypriti/releases/tag/legacy-archive) | Tag landing page, with source-download links |
+| [Download everything as a zip](https://github.com/vivekanandba/artbypriti/archive/refs/tags/legacy-archive.zip) | ⚠️ ~1.5 GB — the entire repo at that commit, `legacy/` included |
+
+**Straight to a subdirectory:**
+
+| | |
+| --- | --- |
+| [`legacy/wordpress`](https://github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy/wordpress) | Original WordPress site + the split `.wpress` backup |
+| [`legacy/migration_1`](https://github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy/migration_1) | First WordPress → Hugo attempt |
+| [`legacy/migration_2`](https://github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy/migration_2) | Second attempt |
+| [`legacy/migration_3`](https://github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy/migration_3) | Third attempt |
+| [`legacy/migration_4`](https://github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy/migration_4) | Fourth attempt |
+| [`legacy/migration_5`](https://github.com/vivekanandba/artbypriti/tree/legacy-archive/legacy/migration_5) | Fifth attempt — the flatten-content restructure behind today's layout |
+
+Single files can be fetched raw, e.g.
+[`flatten-content.py`](https://raw.githubusercontent.com/vivekanandba/artbypriti/legacy-archive/legacy/migration_5/flatten-content.py):
+
+```
+https://raw.githubusercontent.com/vivekanandba/artbypriti/legacy-archive/legacy/<path>
+```
+
+All of the above were verified to return HTTP 200 for an anonymous visitor.
 
 ## The reference
 
@@ -14,7 +47,12 @@ history**, so every file is still retrievable at the commit below, permanently.
 | **Contents** | 1477 files, 1380 MB under `legacy/` |
 
 The `legacy-archive` tag exists so this reference cannot rot: the commit stays reachable
-regardless of what happens to branch history.
+regardless of what happens to branch history, and the links above are built on the tag rather
+than on a branch, so they keep working.
+
+> These links resolve because the repository is public. If it is ever made private, the URLs
+> stay valid but will require being signed in with access; the `git` commands below work either
+> way.
 
 ## Why it was removed
 
