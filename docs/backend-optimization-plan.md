@@ -9,6 +9,33 @@ Measured on 2026-08-04 against `main` @ `8d0cf6e`, Hugo 0.147.8 extended.
 
 ---
 
+## 0. Implementation status
+
+Everything below is **implemented** except where noted. Post-implementation measurements:
+
+| | before | after |
+| --- | --- | --- |
+| Build (warm cache) | 197.6 s every deploy | **3.0 s** |
+| Published site | 140 MB | **28 MB** |
+| Repo working tree | ~1500 MB | **118 MB** |
+| Pages with inline `<style>` | 47 | **0** |
+| Front-matter validation | none | 47 bundles, 0 errors, 7 warnings |
+
+**Not implemented, deliberately:**
+
+- **§1.5 (downscale masters)** — skipped on the strength of the measurement in that section.
+  The masters are untouched.
+- **§2.4 (drop RSS)** — kept. Removing a feed is user-visible and wasn't requested.
+- **§5 (history rewrite)** — not done; needs a force-push. `legacy/` was removed from the tree
+  only, and is permanently retrievable via the `legacy-archive` tag (see
+  [legacy-archive.md](legacy-archive.md)).
+
+**Two claims in this plan were wrong and are corrected in place below** (§1.1, §2.1): the
+masters turned out to be referenced by zero pages, and `params.author` turned out to be inert.
+Both corrections came from diffing the built output rather than from re-reading the templates.
+
+---
+
 ## 1. Baseline — where the time and bytes actually go
 
 | Metric | Measured |
@@ -66,12 +93,17 @@ The theme is already written for this. `layouts/partials/gallery.html` reads
 `layouts/partials/head.html` passes `enableDownload` from the same key. Our single-artwork
 path already links to the 1600 px variant unconditionally, so single pages don't change at all.
 
-- **Effect:** published site 140 MB → **~24 MB** (−83%). Faster Pages artifact upload and
-  deploy on every push; faster first paint for anyone who clicks through.
-- **Trade-off (decision needed):** the lightbox download button disappears and the grid links
-  to a 1600 px image instead of the master. For a portfolio where the art is copyrighted, not
-  serving 2500 px masters is arguably the *desired* behaviour — but it is a behaviour change,
-  so it is your call, not mine.
+- **Effect:** published site 140 MB → **28 MB** (measured). Faster Pages artifact upload and
+  deploy on every push.
+- **Trade-off, corrected after verification.** I originally wrote that the grid links to
+  masters and that a download affordance would be lost. Grepping the built HTML disproved the
+  first half: **zero rendered pages referenced the masters** — 0 non-derived image references
+  across all 61 pages. The `gallery-item` grid branch of `gallery.html` never executes on this
+  site (the home page renders via `home.html` → `album-card.html`, and there are no
+  image-bearing section lists), so the masters were reachable only by guessing a URL. The one
+  real change is that PhotoSwipe's download button is hidden — and it offered the **1600 px
+  display variant**, never the master. Verified as a single bit flip in the built JS
+  (`enableDownload` true → false).
 
 ### 1.2 Take `legacy/` out of the working tree
 
@@ -233,9 +265,15 @@ Why each line earns its place:
   the entire point of the site is an easy trade. I'd go with 82, or 90 if you want the
   brushwork to hold up on a retina display. Extra encode time is absorbed by §1.3's cache.
 - **`params.author`** — `layouts/partials/gallery.html` has a
-  `{{ with site.Params.Author }}` block emitting schema.org `creator` metadata. With no author
-  configured, **that block never executes**; the artist is currently absent from the structured
-  data. Setting it is a free SEO/attribution win with no visual change.
+  `{{ with site.Params.Author }}` block emitting schema.org `creator` metadata, and no author is
+  configured, so the artist is absent from the structured data.
+
+  **Corrected after verification:** setting it is *not* the free SEO win I claimed. That block
+  sits in the list branch of `gallery.html`, which never renders on this site — the built HTML
+  contains zero `itemprop=creator` occurrences both before *and* after the change. The setting
+  is kept as correct site metadata but is currently inert; actually surfacing author metadata
+  needs a small template change (adding it to `single.html` or `opengraph.html`), which is a
+  markup change and therefore out of scope here.
 - **`imaging.exif.disableLatLong`** — the masters are camera/phone photos of paintings; don't
   publish GPS coordinates.
 
@@ -301,10 +339,23 @@ Current state across the 47 artworks:
 - **Format drift** in the rest: `(91 cm x 61 cm)` vs `(91 cm X 61 cm)`, `46 cm Diameter` with
   no parentheses, `12" Diameter` in inches among 40+ metric entries.
 
-Normalize to one documented format, then add a small validation script
-(`scripts/check-content.py`) asserting every artwork bundle has `title`, `date`, `categories`,
-`description`, `dimensions` in the agreed shape, and exactly one image resource that exists on
-disk. Wire it into §3.4 so drift can't come back.
+Canonical caption format: parentheses with an uppercase `X` separator — `(92 cm X 61 cm)`,
+`(46 cm Diameter)`. Five files were normalized to it.
+
+`scripts/check-content.py` now enforces this, split deliberately between hard failures and
+nudges so that content gaps can never block a deploy:
+
+- **Errors** (fail CI): missing `title`/`date`/`categories`; a `resources` entry naming a file
+  that isn't in the bundle; a bundle with no image; malformed `dimensions`.
+- **Warnings** (report only): missing `dimensions`, empty `description`, inch-based dimensions.
+  These need the artist's input — a script must not invent them, and must not block on them.
+
+**It justified itself immediately:** on first run it found a *third* broken resource declaration
+I had missed by reading — `content/ganeshas-blessings/index.md` declared
+`Ganeshas-Blessings.jpg` while the file on disk is `Ganeshas-Blessings.jpeg`. It also found two
+artworks whose `description` key is present but empty, which a `grep` for the key cannot see.
+
+Current state: **47 bundles, 0 errors, 7 warnings.** The 7 are listed in §8 for you to resolve.
 
 ### 3.3 A Makefile that works
 
@@ -312,14 +363,17 @@ The current one has a single `sync` target hardcoding
 `/Users/Vivekanand.balakrishnan/per/projects/...` — it cannot work for anyone else, and won't
 work on this Linux checkout either. Replace with the commands actually used:
 
-```make
-serve:   ; hugo server -D
-build:   ; hugo --minify --gc
-check:   ; python3 scripts/check-content.py && hugo --minify --printPathWarnings
-new:     ; hugo new content/$(SLUG)/index.md
-images:  ; python3 scripts/optimize-images.py content   # §1.5, idempotent
-clean:   ; rm -rf public resources/_gen
-```
+Implemented targets (`make` with no argument lists them):
+
+| Target | Does |
+| --- | --- |
+| `make serve` | `hugo server -D` — dev server with drafts |
+| `make build` | `hugo --minify --gc` into `./public` |
+| `make check` | validator + a build with `--printPathWarnings`; what CI runs |
+| `make new SLUG=my-painting` | scaffolds the bundle from the §3.1 archetype |
+| `make clean` | drops build output and the local variant cache |
+
+There is no `images` target: §1.5 was not implemented, so there is nothing for it to do.
 
 ### 3.4 Add a PR check
 
@@ -405,13 +459,38 @@ Small, reviewable PRs, in dependency order:
 6. **`perf/downscale-masters`** — §1.5, only if you decide clone size warrants it, and only
    after the masters are archived. Include the delivered-image comparison in the PR description.
 
-## 8. Decisions I need from you
+## 8. Open items
 
-1. **Full-resolution downloads** (§1.1) — should visitors be able to download 2500 px masters?
-   I'd default to no for copyright reasons, but it changes current behaviour.
-2. **Where does `legacy/` go** (§1.2) — separate repo, GitHub Release, or offline only?
-3. **Rewriting masters in-place** (§1.5) — my recommendation after measuring is *don't*, unless
-   clone size is actively bothering you. If you do want it, confirm the true originals are
-   archived outside this repo first.
-4. **RSS feed** (§2.4) — keep or drop?
-5. **Git history rewrite** (§5) — worth a force-push, or leave it?
+### Resolved
+
+1. **`legacy/` location** — archived by git reference: tag `legacy-archive` at
+   `8d0cf6e376da7eb0e482d328cda45b472408ef6b`, removed from the working tree, retrieval
+   documented in [legacy-archive.md](legacy-archive.md).
+2. **Full-resolution downloads** — masters are no longer published. This turned out to be
+   near-costless: no page ever linked them (see the correction in §1.1).
+3. **Masters left untouched** (§1.5) and **RSS kept** (§2.4).
+4. **History rewrite** — not done. Available later if wanted; needs a force-push.
+
+### Still needs the artist's input
+
+The validator's 7 warnings. None block a build; all are content, not code:
+
+| Artwork | Warning |
+| --- | --- |
+| `mosaic-coasters` | no `dimensions` — page renders without a size caption |
+| `peace-stool` | no `dimensions` |
+| `staircase` | no `dimensions`, and empty `description` |
+| `pear-with-pink-background` | empty `description` — no subtext under the title |
+| `ganeshas-blessings` | `(36 inch X 36 inch)` — inches, where the rest of the site uses cm |
+| `mosaic-modern-ganesha` | `(12" Diameter)` — inches |
+
+I deliberately did not convert the inch measurements or write the two missing descriptions:
+both change what visitors read, and only the artist can decide them.
+
+### Optional follow-up
+
+- **Author metadata** — `params.author` is set but inert (§2.1). Emitting it needs ~2 lines in
+  `single.html` or `opengraph.html`. Invisible to visitors, mildly useful for SEO.
+- **Home page OpenGraph image** — the social-share card is the artist's portrait
+  (`Priti_Ghatlia.jpg`), which is what the site already served; the declaration is now merely
+  truthful rather than silently falling back. Switching it to a painting is a one-line change.
