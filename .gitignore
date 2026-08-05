@@ -24,3 +24,11 @@ hugo.linux
 
 ### Claude Code ###
 .claude/settings.local.json
+
+### Test tooling ###
+# Screenshot baselines under tests/visual/*-snapshots/ ARE committed — they are the record
+# of how the site is supposed to look. Only run artifacts are ignored.
+/node_modules/
+/test-results/
+/playwright-report/
+/public-check/
