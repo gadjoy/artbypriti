@@ -15,7 +15,8 @@ Everything below is **implemented** except where noted. Post-implementation meas
 
 | | before | after |
 | --- | --- | --- |
-| Build (warm cache) | 197.6 s every deploy | **3.0 s** |
+| Build, local (warm cache) | 197.6 s every deploy | **3.0 s** |
+| Build, GitHub Actions | 43.8 s every deploy | **0.35 s** (verified on 3 real runs) |
 | Published site | 140 MB | **28 MB** |
 | Repo working tree | ~1500 MB | **118 MB** |
 | Pages with inline `<style>` | 47 | **0** |
@@ -155,9 +156,17 @@ Point the image cache at `HUGO_CACHEDIR` in `hugo.toml`:
 The `restore-keys` fallback matters: adding one painting then reuses the other 47 artworks'
 variants and only processes the new one.
 
-- **Effect, measured:** **197.6 s → 5.6 s** for the build step. Image processing effectively
-  disappears from typical deploys. This is the highest-value change on the list, it is
-  config-only, it touches no content, and it carries no risk — do it first.
+- **Effect, measured locally:** **197.6 s → 5.6 s** for the build step.
+- **Effect, measured on GitHub Actions** (three real runs on this PR): **43.8 s cold → 0.35 s
+  with the cache restored.** GitHub's runners are faster than the machine used above, so the
+  cold number is lower, but the ratio is starker — 125×.
+- **Expect a miss on a branch's first run.** GitHub scopes caches by ref: a `pull_request` run
+  reads the base branch's cache but writes to a PR-scoped one. Two runs on different refs
+  therefore both missed before a third run on the same ref hit. This is documented in both
+  workflows so it isn't mistaken for a broken key.
+
+This is the highest-value change on the list, it is config-only, it touches no content, and it
+carries no risk — do it first.
 
 ### 1.4 Delete two CI steps that do nothing
 

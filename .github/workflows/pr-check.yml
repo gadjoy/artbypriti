@@ -31,7 +31,9 @@ jobs:
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
       # Shares the deploy workflow's cache key, so PRs usually reuse variants the
-      # last deploy already generated instead of rebuilding all 187.
+      # last deploy already generated instead of rebuilding all 187. A miss on a
+      # branch's first run is normal: GitHub scopes caches by ref (a PR run reads
+      # main's cache but writes its own).
       - name: Cache processed images
         uses: actions/cache@v4
         with:
