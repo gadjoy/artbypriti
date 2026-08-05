@@ -2,7 +2,9 @@
 rss_ignore: true
 title: About
 resources:
-  - src: Priti_Ghatlia.jpg
+  # Filename must match the file in this bundle exactly (was Priti_Ghatlia.jpg,
+  # which matched nothing).
+  - src: Priti-Ghatlia.jpeg
 menu:
   main:
     weight: 1
