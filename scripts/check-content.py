@@ -102,11 +102,50 @@ def check_bundle(d, name):
             warnings.append(f"{rel}: dimensions {dims!r} are in inches while the rest of the site uses cm")
 
 
+def check_branch_bundle(root):
+    """Validate content/_index.md — the home page.
+
+    A branch bundle's resources must be files sitting in the same directory. Naming a file
+    that lives inside a child bundle matches nothing, and Hugo answers by silently falling
+    back to another image. That is exactly how the home page's OpenGraph card pointed at the
+    wrong file for ~15 months, so it needs its own check: the loop over content/*/index.md
+    never looks at this file.
+    """
+    index = os.path.join(root, "_index.md")
+    if not os.path.isfile(index):
+        warnings.append(f"{index}: no home page front matter found")
+        return
+    rel = os.path.relpath(index)
+    with open(index, encoding="utf-8") as fh:
+        block = split_front_matter(fh.read(), rel)
+    if block is None:
+        return
+
+    here = set(os.listdir(root))
+    for src in declared_resources(block):
+        if not src or src in here:
+            continue
+        # Point at the likely intent rather than just refusing.
+        elsewhere = [
+            os.path.join(d, src)
+            for d in sorted(os.listdir(root))
+            if os.path.isdir(os.path.join(root, d)) and src in os.listdir(os.path.join(root, d))
+        ]
+        hint = (
+            f" — it is in {elsewhere[0]}, but a branch bundle can only use files in {root}/"
+            if elsewhere
+            else ""
+        )
+        errors.append(f"{rel}: declares resource '{src}' which is not in {root}/{hint}")
+
+
 def main():
     root = sys.argv[1] if len(sys.argv) > 1 else "content"
     if not os.path.isdir(root):
         print(f"error: no such directory: {root}", file=sys.stderr)
         return 1
+
+    check_branch_bundle(root)
 
     bundles = sorted(
         (os.path.join(root, n), n)
