@@ -2,7 +2,7 @@
 # Visual regression additionally requires Docker. Run `make` for the list.
 
 .DEFAULT_GOAL := help
-.PHONY: help serve build check check-all visual visual-update new clean
+.PHONY: help serve build check check-all spec-required visual visual-update new clean
 
 # Pinned so screenshots are comparable: the container fixes font rendering, which is the
 # only way CI and a developer machine agree (spec FR-006). Must match the @playwright/test
@@ -27,10 +27,14 @@ serve: ## Dev server with drafts at http://localhost:1313
 build: ## Production build into ./public
 	$(HUGO_BUILD)
 
-check: ## Fast gates: front matter, strict build, output assertions (what CI runs first)
+check: ## Fast gates: specs, front matter, strict build, output assertions (what CI runs first)
+	python3 scripts/check-specs.py
 	python3 scripts/check-content.py
 	$(HUGO_BUILD) --panicOnWarning --printPathWarnings
 	python3 scripts/check-output.py public
+
+spec-required: ## Check this branch records intent (spec or No-Spec:). BASE=main by default
+	python3 scripts/check-specs.py --diff-base $(or $(BASE),main)
 
 check-all: check visual ## Every gate, including visual regression (needs Docker)
 
