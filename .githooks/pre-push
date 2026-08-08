@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# artbypriti gates — everything CI will check, before the round trip.
+# Bypass: git push --no-verify
+exec "$(git rev-parse --show-toplevel)/scripts/preflight.sh"
