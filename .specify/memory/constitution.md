@@ -4,6 +4,71 @@ The project is a Hugo static site whose product is a gallery of paintings. It ha
 code and no users other than visitors looking at artwork. These principles are written against
 the failure modes this repository has actually experienced, not a generic web-app checklist.
 
+<!-- BEGIN SHARED CONSTITUTION v1.0.0 — vendored from constitution/base.md.
+     Do not edit here; amend upstream and re-vendor. `make check` enforces this. -->
+
+# Shared Engineering Principles
+
+Portfolio-wide rules, **derived from what these repositories independently converged on** —
+not invented for this document. Each principle names the repos that arrived at it separately;
+convergence is the evidence that it generalises.
+
+A project constitution vendors this block and then adds its own principles below it. Where they
+conflict, the project's own principle wins and says why.
+
+## S-I. Verify the artifact, not the appearance of success
+
+A command that exits 0, a build that goes green, a log line that says "passed" — none is evidence
+that the thing you wanted actually happened. Read back the artifact and compare it to intent.
+
+*Converged independently in:* `landseer` III/IV ("record observations, never inferences"; "verify
+by exit code **and** by outcome"), `resumefit` III ("verify the artifact, not the log"),
+`artbypriti` I/II ("a green build is not evidence"; "the rendered page is the contract"), and the
+machine-wide notes ("many CLIs exit 0 having done nothing").
+
+## S-II. Never fabricate domain content
+
+Automation may format, move, and check. It may not invent the things a human is the source of — a
+measurement, a person's words, a record, a citation. When the value is unknown, say so and stop.
+
+*Converged in:* `resumefit` I (never fabricate resume content), `gadjoy` III (no fabricated data),
+`artbypriti` III (no inventing a painting's dimensions or the artist's copy).
+
+## S-III. Specs precede implementation; gates precede merge
+
+Non-trivial work states its intent and acceptance criteria before it is built, and finishes by
+leaving behind a check that fails if the defect returns. Both need an escape hatch with a written
+reason — a gate that cannot be bypassed gets bypassed wholesale.
+
+*Converged in:* `gadjoy` I (test-first), `resumefit` IV (tests gate merges, specs precede tests),
+`landseer` I (every change ships through a reviewed PR), `artbypriti` workflow.
+
+## S-IV. History is additive; archive by reference
+
+Prefer adding over rewriting. Do not force-push shared branches or rewrite published history: it
+buys disk and costs every existing clone. When something must leave the working tree, leave a
+reference that still resolves.
+
+*Converged in:* `resumefit` V (destructive changes backed up first, history additive),
+`artbypriti` (removed 1.38 GB from the tree, kept it at a tag, no rewrite).
+
+## S-V. A green suite is not a current suite
+
+Tests rot silently. A suite that passes proves the checks that exist still hold — not that they
+still cover what the system now does. Every defect found in production is first a question about
+which gate should have caught it.
+
+*Converged in:* `landseer` VII (keeping a suite green is not keeping it current), and every
+incident in `artbypriti`'s ledger.
+
+<!-- END SHARED CONSTITUTION -->
+
+---
+
+# Art by Priti — project principles
+
+The shared principles above apply. These are what is specific to this project.
+
 ## Core Principles
 
 ### I. A Green Build Is Not Evidence of Correctness
@@ -58,6 +123,29 @@ modifications, one of them dead code shadowed by a root override.
 Therefore: **vendored code records its upstream, its version, and every local modification**
 (`themes/gallery/UPSTREAM.md`). Customisation belongs in root `layouts/` and
 `assets/css/custom.css` overrides, not in the vendored copy.
+
+### VI. The Live Site Is Someone's Portfolio
+
+Merging deploys. There is no staging step between `main` and a working artist's public presence,
+so `main` must always build and always look right.
+
+### VII. The Images Are the Product
+
+Never re-encode, rename, or move artwork unasked. A missing or degraded image is the most damaging
+failure this site has — worse than a broken layout, because the layout is scaffolding and the
+painting is the point. (This is why downscaling the masters was measured and then rejected.)
+
+### VIII. URLs That Exist Must Keep Existing
+
+Gallery links outlive redesigns: they are shared, bookmarked, and printed. Add an alias rather than
+breaking a path.
+
+### IX. Respect the Repository's Size Constraints
+
+There is no Git LFS here, so GitHub's **100 MB per-file limit is a hard wall** — the WordPress
+backup is stored as 99 MB chunks precisely because of it (see
+`docs/linux-file-split-and-merge-guide.md`). Do not rewrite history to reclaim space; it would
+invalidate every existing clone in exchange for disk that costs nothing.
 
 ## Additional Constraints
 

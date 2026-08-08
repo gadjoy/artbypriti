@@ -2,7 +2,7 @@
 # Visual regression additionally requires Docker. Run `make` for the list.
 
 .DEFAULT_GOAL := help
-.PHONY: help setup serve build check check-all preflight spec-required visual visual-update new clean
+.PHONY: help setup serve build check check-all preflight live spec-required visual visual-update new clean
 
 # Pinned so screenshots are comparable: the container fixes font rendering, which is the
 # only way CI and a developer machine agree (spec FR-006). Must match the @playwright/test
@@ -30,6 +30,9 @@ setup: ## Install the git hooks (run once per clone)
 	@echo "pre-push:   everything CI runs (make preflight)"
 	@echo "Bypass any with --no-verify when you want CI to be the judge."
 
+live: ## Check the DEPLOYED site (what the scheduled Health workflow runs)
+	python3 scripts/check-live.py
+
 preflight: ## Everything CI checks, run locally (what pre-push runs)
 	scripts/preflight.sh
 
@@ -39,7 +42,8 @@ serve: ## Dev server with drafts at http://localhost:1313
 build: ## Production build into ./public
 	$(HUGO_BUILD)
 
-check: ## Fast gates: specs, front matter, strict build, output assertions (what CI runs first)
+check: ## Fast gates: constitution, specs, front matter, strict build, output assertions
+	python3 scripts/check-constitution.py
 	python3 scripts/check-specs.py
 	python3 scripts/check-content.py
 	$(HUGO_BUILD) --panicOnWarning --printPathWarnings
