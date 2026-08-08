@@ -1,13 +1,20 @@
 # Art by Priti — working notes
 
+> Machine-wide engineering rules live in the **engineering constitution**
+> (`~/.claude/CLAUDE.md`, versioned at `~/data-dash/constitution`) and are already loaded in this
+> session. **Cite a rule ID** (e.g. `CON-VER-001`) rather than restating it — copies drift,
+> citations don't. This file and `.specify/memory/constitution.md` hold only what is specific to
+> this repo.
+
 A Hugo static site: an online gallery of Priti Ghatlia's paintings, deployed to GitHub Pages at
 artbypriti.com. There is no application code — 46 artwork page bundles, four template overrides,
 one stylesheet, and two Python validators.
 
 ## Read these first
 
-- **[`.specify/memory/constitution.md`](.specify/memory/constitution.md)** — the project's
-  principles. Every one exists because something broke; they are not generic advice.
+- **[`.specify/memory/constitution.md`](.specify/memory/constitution.md)** — the *project* deltas
+  only: Hugo's silent fallback, the image budget, the live-site-is-a-portfolio rules. It cites the
+  house rules rather than repeating them.
 - **[`tests/README.md`](tests/README.md)** — the three gates, what each guards, and how to run
   them.
 - **[`specs/`](specs/)** — specifications for in-flight work. If a spec exists for what you are
