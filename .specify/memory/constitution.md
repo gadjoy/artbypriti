@@ -72,16 +72,36 @@ Therefore: **vendored code records its upstream, its version, and every local mo
 
 ## Development Workflow
 
-1. **Specify** — anything beyond a typo or a single content edit gets a spec under `specs/` before
-   implementation (`/speckit-specify`). A spec states user-visible outcomes and acceptance
-   criteria, not an implementation.
-2. **Gate** — `make check` passes locally and in CI on every pull request: content validation,
-   output assertions, visual regression. Adding a defect class to the gate is part of fixing a
-   defect of that class, so it cannot return silently.
-3. **Verify** — a change is done when its effect is demonstrated: measured numbers, a diff of
-   built output, or a screenshot comparison. Not when the code looks right.
+Written intent that nothing checks gets skipped. This project proved that twice: the speckit
+scaffolding sat unused for 15 months, and the backend optimization work shipped with no spec while
+that scaffolding was sitting right there. So each step below is enforced by something, and where it
+cannot be, that is stated rather than implied.
+
+1. **Specify — at the start.** Anything touching templates, styles, config, CI, or scripts gets a
+   spec under `specs/` *before* implementation (`/speckit-specify`). A spec states user-visible
+   outcomes and acceptance criteria, not an implementation.
+   - *Enforced*: `scripts/check-specs.py` fails a pull request that changes substantive paths
+     without either a `specs/**` change or a recorded exemption. It also fails an unfilled template
+     — a spec full of placeholders is not a spec.
+   - *Escape hatch, by design*: `No-Spec: <reason>` in a commit message or the PR body. Content
+     edits, documentation, and typo fixes need nothing. A gate with no way out gets routed around,
+     and a routed-around gate protects nothing.
+2. **Gate — at the end.** Work finishes by leaving behind a check that fails if the defect returns.
+   Fixing a defect includes adding its class to the suite.
+   - *Enforced mechanically* for rendering (visual regression fails unless baselines are
+     deliberately re-recorded) and for content and output (both assertion suites run on every PR).
+   - *Not mechanically enforceable* for a genuinely new defect class: whether a new check covers it
+     is a judgment, and requiring "some file under `tests/` changed" would measure compliance rather
+     than coverage. The pull-request template asks for it explicitly instead.
+3. **Verify.** A change is done when its effect is demonstrated: measured numbers, a diff of built
+   output, or a screenshot comparison. Not when the code looks right. A check that has never been
+   observed failing is not known to work — prove new gates in both directions.
 4. **Never force-push `main`, never rewrite shared history.** Archive by reference (see the
    `legacy-archive` tag) rather than by deletion.
+
+Retroactive specs are legitimate when they record history honestly — see
+`specs/000-backend-optimization/`, numbered out of band because it precedes this process. Writing a
+backfill that pretends the process was followed would be worse than having no backfill.
 
 ## Governance
 
@@ -91,4 +111,12 @@ experience prompted the change — every principle above exists because somethin
 Compliance is expected of human contributors and AI agents alike. An agent that cannot satisfy a
 principle says so plainly rather than routing around it.
 
-**Version**: 1.0.0 | **Ratified**: 2026-08-05 | **Last Amended**: 2026-08-05
+**Version**: 1.1.0 | **Ratified**: 2026-08-05 | **Last Amended**: 2026-08-06
+
+### Amendments
+
+- **1.1.0** (2026-08-06) — Development Workflow rewritten so spec-first and gate-last are enforced
+  rather than encouraged, each with its enforcement mechanism or an explicit admission that none is
+  possible. Prompted by `000-backend-optimization` shipping without a spec: the previous wording
+  described the habit but nothing checked it, which is exactly how the original scaffolding went
+  unused for 15 months.

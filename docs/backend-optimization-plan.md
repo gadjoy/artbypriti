@@ -41,7 +41,7 @@ Both corrections came from diffing the built output rather than from re-reading 
 
 | Metric | Measured |
 | --- | --- |
-| Artworks (page bundles) | 47 |
+| Artwork bundles | 46 (plus the `about` page = 47 bundles) |
 | Source images | 48 files, **115.8 MB**, typically 2490–3900 px on the long edge |
 | Images processed per full build | **187** |
 | **Cold build** (empty `resources/_gen`) | **197.6 s** |
@@ -158,7 +158,7 @@ regenerate variants on a timer.)
             hugo-img-${{ env.HUGO_VERSION }}-
 ```
 
-The `restore-keys` fallback matters: adding one painting then reuses the other 47 artworks'
+The `restore-keys` fallback matters: adding one painting then reuses the other artworks'
 variants and only processes the new one.
 
 - **Effect, measured locally:** **197.6 s → 5.6 s** for the build step.
@@ -324,7 +324,7 @@ These don't move the clock much; they stop the site from drifting as paintings a
 
 ### 3.1 Make `hugo new` scaffold a real artwork
 
-`archetypes/default.md` is still the stock stub, so all 47 artworks were hand-authored — which
+`archetypes/default.md` is still the stock stub, so all 46 artworks were hand-authored — which
 is why the front matter has drifted (§3.2). Replace it with the real shape:
 
 ```markdown
@@ -346,7 +346,7 @@ fields.
 
 ### 3.2 Normalize and then *enforce* front matter
 
-Current state across the 47 artworks:
+Current state across the 46 artworks:
 
 - **3 missing `dimensions`** entirely (`mosaic-coasters`, `peace-stool`, `staircase`), so those
   pages render without the caption every other page has.

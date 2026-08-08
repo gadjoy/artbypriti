@@ -23,14 +23,33 @@ So: **verify against build output, never against the templates.** Grep `public/`
 against after, compare screenshots. Reading a template tells you what it *probably* does — on this
 repository that reasoning has produced confident, wrong conclusions more than once.
 
+## Workflow: spec at the start, gate at the end
+
+Both are enforced, because this project twice wrote down a process that nothing checked and then
+skipped it.
+
+1. **Before implementing** anything touching `layouts/`, `assets/`, `themes/`, `scripts/`, `tests/`,
+   `.github/workflows/`, `hugo.toml`, `Makefile`, or `archetypes/` — write a spec:
+   `/speckit-specify`, then `/speckit-plan` and `/speckit-tasks`. CI **fails** a PR that changes
+   those paths with no spec.
+   - Small change that genuinely needs no spec? Put `No-Spec: <reason>` in a commit message or the
+     PR body. That is a supported route, not a workaround — but the reason gets recorded.
+   - Content edits, `docs/`, and `README.md` need no spec at all.
+2. **After implementing**, leave a gate behind: the defect you just fixed should be unable to return
+   silently. Rendering changes are caught automatically by visual regression; content and output
+   assertions run on every PR. For a genuinely new defect class, add the check — the PR template asks
+   which gate now covers it, because CI cannot judge that for you.
+3. **Verify by observation**, not by reading. See the warning above.
+
 ## Commands
 
 ```bash
-make            # list every target
-make serve      # dev server with drafts, localhost:1313
-make check      # front matter + strict build + output assertions (seconds; what CI runs)
-make check-all  # the above plus visual regression (needs Docker)
-make new SLUG=my-painting   # scaffold an artwork bundle
+make               # list every target
+make serve         # dev server with drafts, localhost:1313
+make check         # specs + front matter + strict build + output assertions (~1s; what CI runs)
+make check-all     # the above plus visual regression (needs Docker)
+make spec-required BASE=main   # does this branch record its intent?
+make new SLUG=my-painting      # scaffold an artwork bundle
 ```
 
 `make check` must pass before you open a pull request.
