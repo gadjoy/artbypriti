@@ -2,6 +2,41 @@ baseURL = 'https://artbypriti.com/'
 languageCode = 'en-us'
 title = 'Art by Priti'
 theme = 'gallery'
+enableRobotsTXT = true
+
+# Image processing runs during page rendering, and a cold build (no cached
+# variants) takes ~200s. The default 60s render timeout leaves no headroom.
+timeout = "180s"
 
 [taxonomies]
   category = "categories"
+
+[params]
+  description = "Online gallery of paintings by Priti Ghatlia"
+  [params.author]
+    # NOTE: currently inert. Its only consumer is the schema.org "creator" block in
+    # the list branch of layouts/partials/gallery.html, and that branch never renders
+    # on this site (the home page uses home.html -> album-card.html, and there are no
+    # image-bearing section lists). Kept as correct site metadata; surfacing it in the
+    # markup would need a small template change.
+    name = "Priti Ghatlia"
+
+[imaging]
+  # Hugo defaults to quality 75 with the "Box" resample filter. Both trade fidelity
+  # for speed, which is the wrong trade for an art gallery: the delivered 1600px
+  # image at q75 measures ~30dB PSNR against the same image at q92.
+  quality = 82
+  resampleFilter = "CatmullRom"
+  [imaging.exif]
+    # Sources are photographs of paintings; don't republish GPS coordinates.
+    disableLatLong = true
+
+[caches]
+  [caches.images]
+    # Default is ":resourceDir/_gen". Pointing this at the cache dir keeps every
+    # generated variant in one place that CI persists via HUGO_CACHEDIR.
+    dir = ":cacheDir/images"
+
+[module]
+  [module.hugoVersion]
+    min = "0.128.0"

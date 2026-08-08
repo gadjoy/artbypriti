@@ -1,0 +1,52 @@
+# Validation for pull requests. The deploy workflow (hugo.yml) only runs after a
+# merge to main, so without this nothing checks a change before it reaches production.
+name: PR checks
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-check-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      # Keep in step with the version in hugo.yml.
+      HUGO_VERSION: 0.147.8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Install Hugo CLI
+        run: |
+          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+      # Shares the deploy workflow's cache key, so PRs usually reuse variants the
+      # last deploy already generated instead of rebuilding all 187. A miss on a
+      # branch's first run is normal: GitHub scopes caches by ref (a PR run reads
+      # main's cache but writes its own).
+      - name: Cache processed images
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ runner.temp }}/hugo_cache
+            resources/_gen
+          key: hugo-img-${{ env.HUGO_VERSION }}-${{ hashFiles('content/**/*.jpg', 'content/**/*.jpeg', 'content/**/*.png', 'hugo.toml') }}
+          restore-keys: |
+            hugo-img-${{ env.HUGO_VERSION }}-
+      - name: Validate artwork front matter
+        run: python3 scripts/check-content.py
+      - name: Build
+        env:
+          HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
+          HUGO_ENVIRONMENT: production
+        run: hugo --minify --printPathWarnings
