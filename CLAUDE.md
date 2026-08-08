@@ -1,11 +1,5 @@
 # Art by Priti — working notes
 
-> Machine-wide engineering rules live in the **engineering constitution**
-> (`~/.claude/CLAUDE.md`, versioned at `~/data-dash/constitution`) and are already loaded in this
-> session. **Cite a rule ID** (e.g. `CON-VER-001`) rather than restating it — copies drift,
-> citations don't. This file and `.specify/memory/constitution.md` hold only what is specific to
-> this repo.
-
 A Hugo static site: an online gallery of Priti Ghatlia's paintings, deployed to GitHub Pages at
 artbypriti.com. There is no application code — 46 artwork page bundles, four template overrides,
 one stylesheet, and two Python validators.
