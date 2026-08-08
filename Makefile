@@ -1,23 +1,47 @@
 # Local development helpers. Requires Hugo Extended (see [module.hugoVersion] in hugo.toml).
-# Run `make` or `make help` for the list.
+# Visual regression additionally requires Docker. Run `make` for the list.
 
 .DEFAULT_GOAL := help
-.PHONY: help serve build check new clean
+.PHONY: help serve build check check-all visual visual-update new clean
+
+# Pinned so screenshots are comparable: the container fixes font rendering, which is the
+# only way CI and a developer machine agree (spec FR-006). Must match the @playwright/test
+# version in package.json.
+PLAYWRIGHT_IMAGE := mcr.microsoft.com/playwright:v1.62.1-noble
+DOCKER_RUN = docker run --rm -v "$(CURDIR):/work" -w /work \
+	--user "$(shell id -u):$(shell id -g)" \
+	-e HOME=/tmp -e npm_config_cache=/tmp/.npm -e CI \
+	$(PLAYWRIGHT_IMAGE)
+
+# --cleanDestinationDir matters: without it Hugo leaves stale files in public/ (a renamed
+# stylesheet keeps its predecessor), which makes output assertions report phantom problems.
+HUGO_BUILD = hugo --minify --gc --cleanDestinationDir
 
 help: ## Show this help
 	@grep -E '^[a-z-]+:.*?## .*$$' $(MAKEFILE_LIST) \
-	  | awk 'BEGIN{FS=":.*?## "}{printf "  \033[1m%-8s\033[0m %s\n", $$1, $$2}'
+	  | awk 'BEGIN{FS=":.*?## "}{printf "  \033[1m%-14s\033[0m %s\n", $$1, $$2}'
 
 serve: ## Dev server with drafts at http://localhost:1313
 	hugo server -D
 
 build: ## Production build into ./public
-	hugo --minify --gc
+	$(HUGO_BUILD)
 
-check: ## Validate artwork front matter, then confirm the site builds
+check: ## Fast gates: front matter, strict build, output assertions (what CI runs first)
 	python3 scripts/check-content.py
-	hugo --minify --gc --printPathWarnings --destination $(CURDIR)/public-check
-	@rm -rf $(CURDIR)/public-check
+	$(HUGO_BUILD) --panicOnWarning --printPathWarnings
+	python3 scripts/check-output.py public
+
+check-all: check visual ## Every gate, including visual regression (needs Docker)
+
+visual: build ## Visual regression against committed baselines (needs Docker)
+	$(DOCKER_RUN) bash -c 'npm ci --no-audit --no-fund >/dev/null && npx playwright test'
+
+visual-update: build ## Re-record baselines after an INTENTIONAL design change
+	$(DOCKER_RUN) bash -c 'npm ci --no-audit --no-fund >/dev/null && npx playwright test --update-snapshots'
+	@echo
+	@echo "Baselines re-recorded. Review the changed PNGs before committing —"
+	@echo "they are the record of how the site is supposed to look."
 
 new: ## Scaffold an artwork: make new SLUG=my-painting
 	@test -n "$(SLUG)" || { echo "usage: make new SLUG=my-painting"; exit 1; }
@@ -26,6 +50,6 @@ new: ## Scaffold an artwork: make new SLUG=my-painting
 	@echo "Next: put the image in content/$(SLUG)/ (named $(SLUG).jpg, or update"
 	@echo "the 'resources' src), fill in description/dimensions, set draft: false."
 
-clean: ## Remove build output and the local image-variant cache
-	rm -rf public public-check resources/_gen
+clean: ## Remove build output, test artifacts, and the local image-variant cache
+	rm -rf public public-check resources/_gen test-results playwright-report
 	hugo --gc >/dev/null 2>&1 || true

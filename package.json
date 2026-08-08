@@ -1,0 +1,12 @@
+{
+  "name": "artbypriti-tests",
+  "private": true,
+  "description": "Test tooling only. The published site has no runtime dependencies (spec NFR-003).",
+  "scripts": {
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1"
+  }
+}
