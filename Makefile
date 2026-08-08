@@ -2,7 +2,7 @@
 # Visual regression additionally requires Docker. Run `make` for the list.
 
 .DEFAULT_GOAL := help
-.PHONY: help serve build check check-all spec-required visual visual-update new clean
+.PHONY: help setup serve build check check-all preflight spec-required visual visual-update new clean
 
 # Pinned so screenshots are comparable: the container fixes font rendering, which is the
 # only way CI and a developer machine agree (spec FR-006). Must match the @playwright/test
@@ -20,6 +20,18 @@ HUGO_BUILD = hugo --minify --gc --cleanDestinationDir
 help: ## Show this help
 	@grep -E '^[a-z-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	  | awk 'BEGIN{FS=":.*?## "}{printf "  \033[1m%-14s\033[0m %s\n", $$1, $$2}'
+
+setup: ## Install the git hooks (run once per clone)
+	@git config core.hooksPath .githooks
+	@chmod +x .githooks/* scripts/*.sh 2>/dev/null || true
+	@echo "core.hooksPath = $$(git config core.hooksPath)"
+	@echo "pre-commit: secrets, protected branch, spec hygiene   (0.13s)"
+	@echo "commit-msg: does the message say why"
+	@echo "pre-push:   everything CI runs (make preflight)"
+	@echo "Bypass any with --no-verify when you want CI to be the judge."
+
+preflight: ## Everything CI checks, run locally (what pre-push runs)
+	scripts/preflight.sh
 
 serve: ## Dev server with drafts at http://localhost:1313
 	hugo server -D
