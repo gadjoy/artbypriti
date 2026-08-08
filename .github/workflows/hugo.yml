@@ -60,6 +60,14 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v6
+      # Gate the deploy itself, not just pull requests. A direct push to main --
+      # or a merge that raced past review -- previously reached production with
+      # nothing validating it. Failing here means a broken site is never
+      # published, and unlike branch protection it needs no repository setting.
+      - name: Validate before publishing
+        run: |
+          python3 scripts/check-specs.py
+          python3 scripts/check-content.py
       - name: Build with Hugo
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
@@ -68,6 +76,10 @@ jobs:
           hugo \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
+      # The build succeeded -- but Hugo answers a missing resource with a silent
+      # fallback, so success proves little. Assert on what is about to ship.
+      - name: Assert on the built site
+        run: python3 scripts/check-output.py public
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
