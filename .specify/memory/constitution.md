@@ -1,50 +1,66 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Art by Priti Constitution
+
+A Hugo portfolio showing one artist's work, deployed to GitHub Pages. Small project,
+so this is deliberately short: four principles, no invented ceremony. A constitution
+listing rules nobody follows is worse than none.
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. The live site is someone's portfolio (NON-NEGOTIABLE)
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+This is a working artist's public presence, not a sandbox. Merging to `main` deploys
+automatically, so **`main` must always build**. Verify `hugo` succeeds locally before
+opening a PR; a broken build takes the whole site down, not one page.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Images are the product
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+The artwork is the reason the site exists. Therefore:
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+- Never re-encode, crop or "optimise" an existing image without being asked. Colour and
+  detail are the work itself, and a lossy pass is not reversible.
+- Every image referenced in content must exist on disk with the correct path. A missing
+  image renders as a broken box on a portfolio — the single most damaging failure here.
+- Keep image filenames stable; they appear in URLs and in links people have shared.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### III. URLs that exist must keep existing
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+Galleries get linked from social posts, messages and email signatures, and those links
+outlive any redesign. Changing a slug or a collection name breaks them permanently.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+If a path must change, add an alias so the old URL still resolves. Deleting a page is a
+deliberate decision, not a side effect of reorganising.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### IV. Respect the repository's size constraints
+
+The repo is large (~567 MB of history) because the artwork and a legacy WordPress backup
+live in it. There is no Git LFS, so **GitHub's 100 MB per-file limit is a hard wall.**
+
+The WordPress backup is stored as 99 MB chunks for exactly this reason — see
+[`docs/linux-file-split-and-merge-guide.md`](../../docs/linux-file-split-and-merge-guide.md).
+Do not commit a file over 100 MB; split it or leave it out. Do not "tidy up" history to
+reclaim space — rewriting this history would invalidate every existing clone for the sake
+of disk that costs nothing.
+
+## Development Workflow
+
+Changes land through a reviewed PR. Before opening one:
+
+```bash
+hugo            # must succeed — merging deploys
+hugo server -D  # check the pages you touched actually render
+```
+
+Look at the rendered pages, not just the exit code. This site has no test suite; the
+build succeeding proves the templates parsed, not that a gallery looks right or an image
+resolved.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+These four exist because they match how this project can actually break: a failed build
+taking the site down, a lost or mangled image, a dead link, or a file too large to push.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Amendments happen in the same PR as the change that motivated them, with the reason
+stated. If a principle here is being routinely ignored, delete it rather than leaving a
+rule that teaches people rules are optional.
+
+**Version**: 1.0.0 | **Ratified**: 2026-08-08 | **Last Amended**: 2026-08-08

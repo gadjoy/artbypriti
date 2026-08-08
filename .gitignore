@@ -24,3 +24,5 @@ hugo.linux
 
 ### Claude Code ###
 .claude/settings.local.json
+# Claude Code agent worktrees — nested git repos, never part of this repo.
+.claude/worktrees/
